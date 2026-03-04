@@ -1,0 +1,5 @@
+/* Shared Styles */
+:root { --brand-red: #E31E24; }
+body { font-family: 'Inter', sans-serif; }
+.admin-table { width: 100%; border-collapse: collapse; }
+.admin-table th, .admin-table td { border: 1px solid #ddd; padding: 12px; }
