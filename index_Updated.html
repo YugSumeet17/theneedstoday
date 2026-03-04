@@ -3,62 +3,707 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Management</title>
-    <link rel="stylesheet" href="styles.css">
+    <meta name="description" content="The Needs Today - All-in-One Indian Superstore with Free Delivery">
+    <title>The Needs Today | All-in-One Superstore</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .brand-red { background-color: #E31E24; }
+        .text-brand-red { color: #E31E24; }
+        .nav-tab.active { border-bottom: 4px solid #E31E24; color: #E31E24; font-weight: 800; }
+        .whatsapp-float {
+            position: fixed; bottom: 20px; right: 20px;
+            background-color: #25d366; color: white;
+            padding: 14px 22px; border-radius: 50px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3); z-index: 1000;
+            font-weight: bold; display: flex; align-items: center; cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .whatsapp-float:hover { transform: scale(1.1); }
+        html { scroll-behavior: smooth; }
+        .modal { display: none; }
+        .modal.active { display: flex; }
+        .error-text { color: #dc2626; font-size: 0.875rem; margin-top: 0.25rem; }
+        .success-text { color: #16a34a; font-size: 0.875rem; }
+        .product-card { transition: transform 0.2s, box-shadow 0.2s; }
+        .product-card:hover { transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .badge { display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; }
+        .badge-sale { background-color: #fca5a5; color: #991b1b; }
+        .search-highlight { background-color: #fbbf24; }
+        @media (max-height: 600px) {
+            .whatsapp-float { padding: 10px 16px; font-size: 0.875rem; }
+        }
+    </style>
 </head>
-<body>
-    <header>
-        <h1>Order Management System</h1>
-        <nav>
-            <input type="text" id="search" placeholder="Search products...">
-        </nav>
+<body class="bg-gray-50 text-gray-900">
+
+    <!-- WhatsApp Float Button -->
+    <div class="whatsapp-float" id="whatsappBtn" role="button" tabindex="0" aria-label="Open WhatsApp to order">
+        <i class="fab fa-whatsapp mr-2 text-2xl"></i> <span class="hidden sm:inline">Order Anything</span>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center py-3 px-4 md:px-6">
+            <div class="flex items-center gap-2">
+                <div class="brand-red text-white font-black px-3 py-1 rounded italic text-sm md:text-base">TNT</div>
+                <h1 class="text-lg md:text-xl font-black tracking-tighter">THE NEEDS TODAY</h1>
+            </div>
+            <div class="flex gap-2 md:gap-4 items-center">
+                <button id="cartToggle" class="brand-red text-white px-3 py-2 rounded-full text-xs font-bold flex items-center gap-1" aria-label="View shopping cart">
+                    <i class="fas fa-shopping-cart"></i> <span id="cartCount" class="bg-white text-red-600 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">0</span>
+                </button>
+                <a href="tel:919739659886" class="brand-red text-white px-3 md:px-4 py-2 rounded-full text-xs font-bold">Call Store</a>
+            </div>
+        </div>
+        
+        <!-- Search Bar -->
+        <div class="border-t bg-gray-50 px-4 md:px-6 py-3">
+            <div class="container mx-auto">
+                <input type="text" id="searchInput" placeholder="Search products... (e.g., Milk, Bread, Detergent)" 
+                    class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
+                    aria-label="Search products">
+            </div>
+        </div>
+        
+        <!-- Category Navigation -->
+        <div class="flex overflow-x-auto border-t bg-gray-50 text-xs md:text-sm font-bold uppercase tracking-wider">
+            <a href="#dairy" class="flex-none px-4 md:px-6 py-4 nav-tab hover:bg-white transition" data-category="dairy">Milk & Dairy</a>
+            <a href="#groceries" class="flex-none px-4 md:px-6 py-4 nav-tab hover:bg-white transition" data-category="groceries">Grocery Staples</a>
+            <a href="#household" class="flex-none px-4 md:px-6 py-4 nav-tab hover:bg-white transition" data-category="household">Cleaning & Laundry</a>
+            <a href="#personal" class="flex-none px-4 md:px-6 py-4 nav-tab hover:bg-white transition" data-category="personal">Personal Care</a>
+        </div>
+    </nav>
+
+    <!-- Header Banner -->
+    <header class="relative h-40 md:h-[300px] flex items-center justify-center text-center text-white bg-gray-900">
+        <img src="https://images.pexels.com/photos/264636/pexels-photo-264636.jpeg?auto=compress&cs=tinysrgb&w=1200" 
+            alt="Grocery store banner" class="absolute inset-0 w-full h-full object-cover opacity-40">
+        <div class="relative z-10 px-6">
+            <h2 class="text-3xl md:text-6xl font-black mb-2 uppercase italic">Superstore Online</h2>
+            <p class="text-sm md:text-lg opacity-90 font-light">Free Delivery to ATS Happy Trails & Sector 10</p>
+        </div>
     </header>
-    <main>
-        <section>
-            <h2>Available Products</h2>
-            <ul id="product-list">
-                <!-- Product items will be generated here --></ul>
-        </section>
-        <section>
-            <h2>Your Cart</h2>
-            <ul id="cart">
-                <!-- Cart items will be generated here --></ul>
-            <p id="total">Total: $0.00</p>
-            <button id="checkout">Checkout</button>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2026 Your Company Name</p>
+
+    <!-- Delivery Zone & Customer Info Section -->
+    <section class="container mx-auto -mt-6 md:-mt-10 relative z-30 px-4 mb-8 md:mb-10">
+        <div class="bg-white p-4 md:p-6 rounded-2xl shadow-xl max-w-2xl mx-auto border-b-8 border-brand-red">
+            <div class="mb-4">
+                <label for="deliveryZone" class="block text-sm font-bold mb-2">Delivery Zone *</label>
+                <select id="deliveryZone" class="w-full bg-gray-50 border border-gray-300 p-2 md:p-3 rounded-lg outline-none focus:ring-2 focus:ring-red-500" aria-label="Select delivery zone" required>
+                    <option value="">Select your zone...</option>
+                    <option value="ATS Happy Trails">ATS Happy Trails</option>
+                    <option value="Sector 10">Sector 10</option>
+                </select>
+                <span id="zoneError" class="error-text"></span>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label for="custName" class="block text-sm font-bold mb-1">Full Name *</label>
+                    <input type="text" id="custName" placeholder="Your Full Name" 
+                        class="w-full bg-gray-50 border border-gray-300 p-2 md:p-3 rounded-lg outline-none focus:ring-2 focus:ring-red-500"
+                        aria-label="Enter your full name" required>
+                    <span id="nameError" class="error-text"></span>
+                </div>
+                <div>
+                    <label for="flatNo" class="block text-sm font-bold mb-1">Flat & Tower No. *</label>
+                    <input type="text" id="flatNo" placeholder="Flat & Tower No." 
+                        class="w-full bg-gray-50 border border-gray-300 p-2 md:p-3 rounded-lg outline-none focus:ring-2 focus:ring-red-500"
+                        aria-label="Enter flat and tower number" required>
+                    <span id="flatError" class="error-text"></span>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                <div>
+                    <label for="custPhone" class="block text-sm font-bold mb-1">Phone Number *</label>
+                    <input type="tel" id="custPhone" placeholder="10-digit mobile number" pattern="[0-9]{10}"
+                        class="w-full bg-gray-50 border border-gray-300 p-2 md:p-3 rounded-lg outline-none focus:ring-2 focus:ring-red-500"
+                        aria-label="Enter 10-digit phone number" required>
+                    <span id="phoneError" class="error-text"></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dairy & Breakfast Section -->
+    <section id="dairy" class="container mx-auto py-8 md:py-10 px-4">
+        <h3 class="text-2xl font-black mb-6 border-l-8 border-blue-500 pl-4 uppercase italic">1. Dairy & Breakfast</h3>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+            <!-- Milk & Curd -->
+            <div class="bg-white p-3 md:p-4 border rounded-2xl shadow-sm text-center product-card">
+                <div class="relative mb-3">
+                    <img src="https://images.pexels.com/photos/248412/pexels-photo-248412.jpeg?auto=compress&cs=tinysrgb&w=400" 
+                        alt="Milk and curd products" class="h-32 md:h-40 w-full object-cover rounded-xl">
+                    <span class="badge badge-sale absolute top-2 right-2">20% OFF</span>
+                </div>
+                <h4 class="font-bold text-sm md:text-base">Milk & Curd</h4>
+                <p class="text-xs text-gray-500 mb-2 italic">Amul, Mother Dairy</p>
+                <div class="flex justify-between items-center mb-3 text-xs md:text-sm">
+                    <span class="text-red-600 font-bold">₹40-80</span>
+                    <span class="text-gray-400 line-through">₹50-100</span>
+                </div>
+                <select class="w-full mb-2 bg-gray-50 border text-xs p-1 rounded" data-product="Milk/Curd" aria-label="Select milk quantity">
+                    <option value="500ml - ₹40">500ml - ₹40</option>
+                    <option value="1L - ₹70">1L - ₹70</option>
+                    <option value="2L - ₹130">2L - ₹130</option>
+                </select>
+                <button onclick="addToCart('Milk/Curd', '500ml - ₹40')" class="w-full py-2 brand-red text-white rounded-lg font-bold text-xs md:text-sm hover:opacity-90">ADD TO CART</button>
+            </div>
+
+            <!-- Fresh Bread -->
+            <div class="bg-white p-3 md:p-4 border rounded-2xl shadow-sm text-center product-card">
+                <div class="relative mb-3">
+                    <img src="https://images.pexels.com/photos/821365/pexels-photo-821365.jpeg?auto=compress&cs=tinysrgb&w=400" 
+                        alt="Fresh bread products" class="h-32 md:h-40 w-full object-cover rounded-xl">
+                </div>
+                <h4 class="font-bold text-sm md:text-base">Fresh Bread</h4>
+                <p class="text-xs text-gray-500 mb-2 italic">Brown & White</p>
+                <div class="text-xs md:text-sm text-red-600 font-bold mb-3">₹30-50</div>
+                <select class="w-full mb-2 bg-gray-50 border text-xs p-1 rounded" data-product="Fresh Bread" aria-label="Select bread type">
+                    <option value="White Bread - ₹30">White Bread - ₹30</option>
+                    <option value="Brown Bread - ₹40">Brown Bread - ₹40</option>
+                    <option value="Multigrain - ₹50">Multigrain - ₹50</option>
+                </select>
+                <button onclick="addToCart('Fresh Bread', 'White Bread - ₹30')" class="w-full py-2 brand-red text-white rounded-lg font-bold text-xs md:text-sm hover:opacity-90">ADD TO CART</button>
+            </div>
+
+            <!-- Fresh Paneer -->
+            <div class="bg-white p-3 md:p-4 border rounded-2xl shadow-sm text-center product-card">
+                <div class="relative mb-3">
+                    <img src="https://images.pexels.com/photos/414645/pexels-photo-414645.jpeg?auto=compress&cs=tinysrgb&w=400" 
+                        alt="Fresh paneer" class="h-32 md:h-40 w-full object-cover rounded-xl">
+                    <span class="badge badge-sale absolute top-2 right-2">15% OFF</span>
+                </div>
+                <h4 class="font-bold text-sm md:text-base">Fresh Paneer</h4>
+                <p class="text-xs text-gray-500 mb-2 italic">Daily Fresh Stock</p>
+                <div class="flex justify-between items-center mb-3 text-xs md:text-sm">
+                    <span class="text-red-600 font-bold">₹180-360</span>
+                    <span class="text-gray-400 line-through">₹200-400</span>
+                </div>
+                <select class="w-full mb-2 bg-gray-50 border text-xs p-1 rounded" data-product="Paneer" aria-label="Select paneer quantity">
+                    <option value="250g - ₹180">250g - ₹180</option>
+                    <option value="500g - ₹340">500g - ₹340</option>
+                </select>
+                <button onclick="addToCart('Paneer', '250g - ₹180')" class="w-full py-2 brand-red text-white rounded-lg font-bold text-xs md:text-sm hover:opacity-90">ADD TO CART</button>
+            </div>
+
+            <!-- Fresh Eggs -->
+            <div class="bg-white p-3 md:p-4 border rounded-2xl shadow-sm text-center product-card">
+                <div class="relative mb-3">
+                    <img src="https://images.pexels.com/photos/1556665/pexels-photo-1556665.jpeg?auto=compress&cs=tinysrgb&w=400" 
+                        alt="Fresh eggs" class="h-32 md:h-40 w-full object-cover rounded-xl">
+                </div>
+                <h4 class="font-bold text-sm md:text-base">Fresh Eggs</h4>
+                <p class="text-xs text-gray-500 mb-2 italic">Tray / Half Tray</p>
+                <div class="text-xs md:text-sm text-red-600 font-bold mb-3">₹70-140</div>
+                <select class="w-full mb-2 bg-gray-50 border text-xs p-1 rounded" data-product="Eggs" aria-label="Select egg quantity">
+                    <option value="Half Tray (6) - ₹70">Half Tray (6) - ₹70</option>
+                    <option value="Full Tray (12) - ₹140">Full Tray (12) - ₹140</option>
+                </select>
+                <button onclick="addToCart('Eggs', 'Half Tray (6) - ₹70')" class="w-full py-2 brand-red text-white rounded-lg font-bold text-xs md:text-sm hover:opacity-90">ADD TO CART</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Grocery Staples Section -->
+    <section id="groceries" class="bg-gray-100 py-8 md:py-16 px-4">
+        <div class="container mx-auto">
+            <h3 class="text-2xl font-black mb-6 border-l-8 border-orange-500 pl-4 uppercase italic">2. Grocery Staples</h3>
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+                <!-- Atta & Flours -->
+                <div class="bg-white p-3 md:p-4 border rounded-2xl shadow-sm text-center product-card">
+                    <img src="https://images.pexels.com/photos/4110251/pexels-photo-4110251.jpeg?auto=compress&cs=tinysrgb&w=400" 
+                        alt="Atta and flour products" class="h-32 md:h-40 w-full object-cover rounded-xl mb-3">
+                    <h4 class="font-bold text-sm md:text-base">Atta & Flours</h4>
+                    <p class="text-xs text-gray-500 mb-2">Aashirwad, Pillsbury</p>
+                    <div class="text-xs md:text-sm text-orange-600 font-bold mb-3">₹90-250</div>
+                    <select class="w-full mb-2 bg-gray-50 border text-xs p-1 rounded" data-product="Atta" aria-label="Select flour type">
+                        <option value="Wheat Atta 2kg - ₹90">Wheat Atta 2kg - ₹90</option>
+                        <option value="Maida 1kg - ₹120">Maida 1kg - ₹120</option>
+                        <option value="Mix Flour 1kg - ₹110">Mix Flour 1kg - ₹110</option>
+                    </select>
+                    <button onclick="addToCart('Atta', 'Wheat Atta 2kg - ₹90')" class="w-full py-2 bg-orange-500 text-white rounded-lg font-bold text-xs md:text-sm hover:opacity-90">ADD TO CART</button>
+                </div>
+
+                <!-- Dals & Pulses -->
+                <div class="bg-white p-3 md:p-4 border rounded-2xl shadow-sm text-center product-card">
+                    <img src="https://images.pexels.com/photos/4110226/pexels-photo-4110226.jpeg?auto=compress&cs=tinysrgb&w=400" 
+                        alt="Dals and pulses" class="h-32 md:h-40 w-full object-cover rounded-xl mb-3">
+                    <h4 class="font-bold text-sm md:text-base">Dals & Pulses</h4>
+                    <p class="text-xs text-gray-500 mb-2">Toor, Moong, Chana</p>
+                    <div class="text-xs md:text-sm text-orange-600 font-bold mb-3">₹80-200</div>
+                    <select class="w-full mb-2 bg-gray-50 border text-xs p-1 rounded" data-product="Dals" aria-label="Select dal type">
+                        <option value="Toor Dal 1kg - ₹120">Toor Dal 1kg - ₹120</option>
+                        <option value="Moong Dal 1kg - ₹100">Moong Dal 1kg - ₹100</option>
+                        <option value="Masoor Dal 1kg - ₹80">Masoor Dal 1kg - ₹80</option>
+                    </select>
+                    <button onclick="addToCart('Dals', 'Toor Dal 1kg - ₹120')" class="w-full py-2 bg-orange-500 text-white rounded-lg font-bold text-xs md:text-sm hover:opacity-90">ADD TO CART</button>
+                </div>
+
+                <!-- Indian Spices -->
+                <div class="bg-white p-3 md:p-4 border rounded-2xl shadow-sm text-center product-card">
+                    <img src="https://images.pexels.com/photos/674483/pexels-photo-674483.jpeg?auto=compress&cs=tinysrgb&w=400" 
+                        alt="Indian spices" class="h-32 md:h-40 w-full object-cover rounded-xl mb-3">
+                    <h4 class="font-bold text-sm md:text-base">Indian Spices</h4>
+                    <p class="text-xs text-gray-500 mb-2">Turmeric, Chili, Cumin</p>
+                    <div class="text-xs md:text-sm text-orange-600 font-bold mb-3">₹50-200</div>
+                    <select class="w-full mb-2 bg-gray-50 border text-xs p-1 rounded" data-product="Spices" aria-label="Select spice type">
+                        <option value="Turmeric 500g - ₹80">Turmeric 500g - ₹80</option>
+                        <option value="Red Chili 500g - ₹120">Red Chili 500g - ₹120</option>
+                        <option value="Cumin 200g - ₹60">Cumin 200g - ₹60</option>
+                    </select>
+                    <button onclick="addToCart('Spices', 'Turmeric 500g - ₹80')" class="w-full py-2 bg-orange-500 text-white rounded-lg font-bold text-xs md:text-sm hover:opacity-90">ADD TO CART</button>
+                </div>
+
+                <!-- Oils & Ghee -->
+                <div class="bg-white p-3 md:p-4 border rounded-2xl shadow-sm text-center product-card">
+                    <img src="https://images.pexels.com/photos/1474979/pexels-photo-1474979.jpeg?auto=compress&cs=tinysrgb&w=400" 
+                        alt="Oils and ghee" class="h-32 md:h-40 w-full object-cover rounded-xl mb-3">
+                    <h4 class="font-bold text-sm md:text-base">Oils & Ghee</h4>
+                    <p class="text-xs text-gray-500 mb-2">Sunflower, Coconut, Ghee</p>
+                    <div class="text-xs md:text-sm text-orange-600 font-bold mb-3">₹150-500</div>
+                    <select class="w-full mb-2 bg-gray-50 border text-xs p-1 rounded" data-product="Oil/Ghee" aria-label="Select oil type">
+                        <option value="Sunflower Oil 1L - ₹150">Sunflower Oil 1L - ₹150</option>
+                        <option value="Ghee 500g - ₹400">Ghee 500g - ₹400</option>
+                        <option value="Coconut Oil 500ml - ₹120">Coconut Oil 500ml - ₹120</option>
+                    </select>
+                    <button onclick="addToCart('Oil/Ghee', 'Sunflower Oil 1L - ₹150')" class="w-full py-2 bg-orange-500 text-white rounded-lg font-bold text-xs md:text-sm hover:opacity-90">ADD TO CART</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cleaning & Laundry Section -->
+    <section id="household" class="container mx-auto py-8 md:py-16 px-4">
+        <h3 class="text-2xl font-black mb-6 border-l-8 border-green-600 pl-4 uppercase italic">3. Cleaning & Laundry</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+            <div class="bg-green-50 p-4 md:p-6 rounded-3xl flex flex-col md:flex-row md:justify-between md:items-center border border-green-200 product-card">
+                <div class="mb-4 md:mb-0">
+                    <h4 class="text-lg md:text-xl font-black uppercase">Detergents & Soaps</h4>
+                    <p class="text-sm text-gray-600">Surf Excel, Ariel, Tide, Vim Bar</p>
+                </div>
+                <select class="w-full md:w-auto mb-2 md:mb-0 bg-gray-50 border text-xs p-2 rounded mr-2" data-product="Cleaning Items" aria-label="Select cleaning product">
+                    <option value="Surf Excel 1kg - ₹300">Surf Excel 1kg - ₹300</option>
+                    <option value="Ariel 500g - ₹250">Ariel 500g - ₹250</option>
+                    <option value="Vim Bar 300g - ₹50">Vim Bar 300g - ₹50</option>
+                </select>
+                <button onclick="addToCart('Cleaning Items', 'Surf Excel 1kg - ₹300')" class="w-full md:w-auto bg-green-600 text-white px-4 md:px-6 py-2 rounded-full font-bold text-sm hover:opacity-90">ADD</button>
+            </div>
+
+            <div class="bg-green-50 p-4 md:p-6 rounded-3xl flex flex-col md:flex-row md:justify-between md:items-center border border-green-200 product-card">
+                <div class="mb-4 md:mb-0">
+                    <h4 class="text-lg md:text-xl font-black uppercase">Floor & Toilet</h4>
+                    <p class="text-sm text-gray-600">Lizol, Harpic, Colin, Dettol</p>
+                </div>
+                <select class="w-full md:w-auto mb-2 md:mb-0 bg-gray-50 border text-xs p-2 rounded mr-2" data-product="Floor/Toilet Cleaners" aria-label="Select floor cleaner">
+                    <option value="Lizol 500ml - ₹120">Lizol 500ml - ₹120</option>
+                    <option value="Harpic 500ml - ₹100">Harpic 500ml - ₹100</option>
+                    <option value="Dettol 500ml - ₹150">Dettol 500ml - ₹150</option>
+                </select>
+                <button onclick="addToCart('Floor/Toilet Cleaners', 'Lizol 500ml - ₹120')" class="w-full md:w-auto bg-green-600 text-white px-4 md:px-6 py-2 rounded-full font-bold text-sm hover:opacity-90">ADD</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Personal Care Section -->
+    <section id="personal" class="bg-blue-600 py-8 md:py-16 px-4 text-white">
+        <div class="container mx-auto">
+            <h3 class="text-2xl font-black mb-6 border-l-8 border-white pl-4 uppercase italic">4. Personal Care</h3>
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+                <!-- Bath & Body -->
+                <div class="text-center product-card">
+                    <div class="bg-white/20 h-28 md:h-32 rounded-full flex items-center justify-center mb-4"><i class="fas fa-soap text-3xl md:text-4xl"></i></div>
+                    <h5 class="font-bold text-sm md:text-base mb-2">Bath & Body</h5>
+                    <select class="w-full mb-2 bg-white/20 border border-white text-white text-xs p-1 rounded" data-product="Bath/Body Soaps" aria-label="Select bath product">
+                        <option value="Lux Soap 100g - ₹40">Lux Soap 100g - ₹40</option>
+                        <option value="Dettol Soap 100g - ₹35">Dettol Soap 100g - ₹35</option>
+                        <option value="Dove Soap 100g - ₹60">Dove Soap 100g - ₹60</option>
+                    </select>
+                    <button onclick="addToCart('Bath/Body Soaps', 'Lux Soap 100g - ₹40')" class="w-full bg-white text-blue-600 px-3 py-1 rounded-full text-xs font-bold hover:opacity-90">ADD</button>
+                </div>
+
+                <!-- Oral Care -->
+                <div class="text-center product-card">
+                    <div class="bg-white/20 h-28 md:h-32 rounded-full flex items-center justify-center mb-4"><i class="fas fa-tooth text-3xl md:text-4xl"></i></div>
+                    <h5 class="font-bold text-sm md:text-base mb-2">Oral Care</h5>
+                    <select class="w-full mb-2 bg-white/20 border border-white text-white text-xs p-1 rounded" data-product="Oral Care" aria-label="Select oral care product">
+                        <option value="Colgate 100g - ₹50">Colgate 100g - ₹50</option>
+                        <option value="Pepsodent 100g - ₹45">Pepsodent 100g - ₹45</option>
+                        <option value="Close Up 100g - ₹40">Close Up 100g - ₹40</option>
+                    </select>
+                    <button onclick="addToCart('Oral Care', 'Colgate 100g - ₹50')" class="w-full bg-white text-blue-600 px-3 py-1 rounded-full text-xs font-bold hover:opacity-90">ADD</button>
+                </div>
+
+                <!-- Hair Care -->
+                <div class="text-center product-card">
+                    <div class="bg-white/20 h-28 md:h-32 rounded-full flex items-center justify-center mb-4"><i class="fas fa-pump-medical text-3xl md:text-4xl"></i></div>
+                    <h5 class="font-bold text-sm md:text-base mb-2">Hair Care</h5>
+                    <select class="w-full mb-2 bg-white/20 border border-white text-white text-xs p-1 rounded" data-product="Shampoos" aria-label="Select shampoo">
+                        <option value="Head & Shoulders 200ml - ₹120">Head & Shoulders 200ml - ₹120</option>
+                        <option value="Sunsilk 180ml - ₹100">Sunsilk 180ml - ₹100</option>
+                        <option value="Pantene 180ml - ₹110">Pantene 180ml - ₹110</option>
+                    </select>
+                    <button onclick="addToCart('Shampoos', 'Head & Shoulders 200ml - ₹120')" class="w-full bg-white text-blue-600 px-3 py-1 rounded-full text-xs font-bold hover:opacity-90">ADD</button>
+                </div>
+
+                <!-- Baby Care -->
+                <div class="text-center product-card">
+                    <div class="bg-white/20 h-28 md:h-32 rounded-full flex items-center justify-center mb-4"><i class="fas fa-baby text-3xl md:text-4xl"></i></div>
+                    <h5 class="font-bold text-sm md:text-base mb-2">Baby Care</h5>
+                    <select class="w-full mb-2 bg-white/20 border border-white text-white text-xs p-1 rounded" data-product="Baby Products" aria-label="Select baby care product">
+                        <option value="Johnson Baby Oil 100ml - ₹180">Johnson Baby Oil 100ml - ₹180</option>
+                        <option value="Pampers Diapers 10s - ₹250">Pampers Diapers 10s - ₹250</option>
+                        <option value="Baby Shampoo 200ml - ₹150">Baby Shampoo 200ml - ₹150</option>
+                    </select>
+                    <button onclick="addToCart('Baby Products', 'Johnson Baby Oil 100ml - ₹180')" class="w-full bg-white text-blue-600 px-3 py-1 rounded-full text-xs font-bold hover:opacity-90">ADD</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Payment Section -->
+    <section class="py-12 md:py-20 text-center bg-white px-4">
+        <h3 class="text-2xl md:text-3xl font-black mb-4 tracking-tighter uppercase italic">Fast UPI Payment</h3>
+        <p class="text-gray-500 mb-8">Pay securely after delivery confirmation</p>
+        <div class="inline-block p-3 md:p-4 border-4 border-dashed rounded-3xl">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=9739659886@okicici" 
+                alt="UPI Payment QR Code" class="w-32 md:w-40">
+        </div>
+        <p class="mt-4 text-lg md:text-xl font-bold">9739659886@okicici</p>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-8 md:py-12 px-6 text-center">
+        <h4 class="text-xl md:text-2xl font-black italic mb-2 tracking-tighter uppercase">The Needs Today</h4>
+        <p class="text-xs md:text-sm text-gray-500 mb-4">Shop No. 3, ATS Happy Trails, Greater Noida West</p>
+        <p class="text-xs text-gray-600">Operating Hours: 7 AM - 10 PM | Free Delivery within 2 hours</p>
+        <div class="text-[10px] text-gray-700 font-bold tracking-widest uppercase mt-4">
+            Designed for Superstore Performance
+        </div>
     </footer>
-    <script src="script.js"></script>
+
+    <!-- Order Summary Modal -->
+    <div id="orderModal" class="modal fixed inset-0 bg-black/50 z-50 items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="sticky top-0 bg-white border-b p-4 flex justify-between items-center">
+                <h2 class="text-xl md:text-2xl font-black">Order Summary</h2>
+                <button onclick="closeModal()" class="text-2xl font-bold text-gray-500 hover:text-gray-700" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="p-4 md:p-6">
+                <div class="mb-6 p-4 bg-gray-50 rounded-lg">
+                    <h3 class="font-bold mb-2">Customer Details</h3>
+                    <p><strong>Name:</strong> <span id="modalName">-</span></p>
+                    <p><strong>Flat:</strong> <span id="modalFlat">-</span></p>
+                    <p><strong>Phone:</strong> <span id="modalPhone">-</span></p>
+                    <p><strong>Zone:</strong> <span id="modalZone">-</span></p>
+                </div>
+                
+                <h3 class="font-bold mb-3">Order Items</h3>
+                <div id="modalCartItems" class="border-t border-b py-4 mb-6">
+                    <!-- Cart items will be populated here -->
+                </div>
+
+                <div class="flex justify-between items-center text-lg font-bold mb-6 p-4 bg-yellow-50 rounded-lg">
+                    <span>Order Total:</span>
+                    <span id="modalTotal" class="text-red-600">₹0</span>
+                </div>
+
+                <div class="bg-blue-50 p-4 rounded-lg mb-6">
+                    <p class="text-sm text-blue-900"><i class="fas fa-info-circle mr-2"></i>Please review your order carefully before confirming.</p>
+                </div>
+
+                <div class="flex gap-3">
+                    <button onclick="closeModal()" class="flex-1 py-3 border border-gray-300 rounded-lg font-bold hover:bg-gray-50">Edit Order</button>
+                    <button onclick="submitOrder()" class="flex-1 py-3 brand-red text-white rounded-lg font-bold hover:opacity-90">Confirm & Order</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Product database
+        const products = {
+            'Milk/Curd': { name: 'Milk & Curd', category: 'dairy', price: 40 },
+            'Fresh Bread': { name: 'Fresh Bread', category: 'dairy', price: 30 },
+            'Paneer': { name: 'Fresh Paneer', category: 'dairy', price: 180 },
+            'Eggs': { name: 'Fresh Eggs', category: 'dairy', price: 70 },
+            'Atta': { name: 'Atta & Flours', category: 'groceries', price: 90 },
+            'Dals': { name: 'Dals & Pulses', category: 'groceries', price: 120 },
+            'Spices': { name: 'Indian Spices', category: 'groceries', price: 80 },
+            'Oil/Ghee': { name: 'Oils & Ghee', category: 'groceries', price: 150 },
+            'Cleaning Items': { name: 'Detergents & Soaps', category: 'household', price: 300 },
+            'Floor/Toilet Cleaners': { name: 'Floor & Toilet', category: 'household', price: 120 },
+            'Bath/Body Soaps': { name: 'Bath & Body', category: 'personal', price: 40 },
+            'Oral Care': { name: 'Oral Care', category: 'personal', price: 50 },
+            'Shampoos': { name: 'Hair Care', category: 'personal', price: 120 },
+            'Baby Products': { name: 'Baby Care', category: 'personal', price: 180 }
+        };
+
+        let cart = [];
+        const STORE_PHONE = '919739659886';
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            setupEventListeners();
+            loadCartFromStorage();
+        });
+
+        function setupEventListeners() {
+            document.getElementById('searchInput').addEventListener('input', handleSearch);
+            document.getElementById('whatsappBtn').addEventListener('click', openWhatsApp);
+            document.getElementById('cartToggle').addEventListener('click', openModal);
+            document.getElementById('deliveryZone').addEventListener('change', validateDeliveryZone);
+            document.getElementById('custName').addEventListener('blur', validateName);
+            document.getElementById('flatNo').addEventListener('blur', validateFlat);
+            document.getElementById('custPhone').addEventListener('blur', validatePhone);
+
+            // Tab active state highlighting
+            window.addEventListener('scroll', updateActiveTab);
+        }
+
+        function handleSearch(e) {
+            const query = e.target.value.toLowerCase();
+            const sections = document.querySelectorAll('section[id]');
+            
+            sections.forEach(section => {
+                const products = section.querySelectorAll('.product-card');
+                let hasMatch = false;
+                
+                products.forEach(product => {
+                    const text = product.textContent.toLowerCase();
+                    const matches = text.includes(query);
+                    product.style.display = matches || query === '' ? '' : 'none';
+                    if (matches) hasMatch = true;
+                });
+
+                section.style.display = hasMatch || query === '' ? '' : 'none';
+            });
+        }
+
+        function validateDeliveryZone() {
+            const zone = document.getElementById('deliveryZone').value;
+            const error = document.getElementById('zoneError');
+            if (!zone) {
+                error.textContent = 'Please select a delivery zone';
+                return false;
+            }
+            error.textContent = '';
+            return true;
+        }
+
+        function validateName() {
+            const name = document.getElementById('custName').value.trim();
+            const error = document.getElementById('nameError');
+            if (!name) {
+                error.textContent = 'Name is required';
+                return false;
+            }
+            if (name.length < 3) {
+                error.textContent = 'Name must be at least 3 characters';
+                return false;
+            }
+            error.textContent = '';
+            return true;
+        }
+
+        function validateFlat() {
+            const flat = document.getElementById('flatNo').value.trim();
+            const error = document.getElementById('flatError');
+            if (!flat) {
+                error.textContent = 'Flat number is required';
+                return false;
+            }
+            error.textContent = '';
+            return true;
+        }
+
+        function validatePhone() {
+            const phone = document.getElementById('custPhone').value.trim();
+            const error = document.getElementById('phoneError');
+            if (!phone) {
+                error.textContent = 'Phone number is required';
+                return false;
+            }
+            if (!/^\d{10}$/.test(phone)) {
+                error.textContent = 'Enter a valid 10-digit number';
+                return false;
+            }
+            error.textContent = '';
+            return true;
+        }
+
+        function validateAllFields() {
+            return validateDeliveryZone() && validateName() && validateFlat() && validatePhone();
+        }
+
+        function addToCart(productKey, variant) {
+            if (!validateAllFields()) {
+                alert('Please fill all required fields first');
+                return;
+            }
+
+            const existingItem = cart.find(item => item.productKey === productKey && item.variant === variant);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    productKey: productKey,
+                    variant: variant,
+                    quantity: 1,
+                    name: products[productKey].name
+                });
+            }
+
+            saveCartToStorage();
+            updateCartCount();
+            showNotification(`${variant} added to cart!`);
+        }
+
+        function updateCartCount() {
+            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cartCount').textContent = count;
+        }
+
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.className = 'fixed top-20 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg z-40 text-sm';
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            setTimeout(() => notification.remove(), 2000);
+        }
+
+        function saveCartToStorage() {
+            localStorage.setItem('tntcart', JSON.stringify(cart));
+        }
+
+        function loadCartFromStorage() {
+            const saved = localStorage.getItem('tntcart');
+            if (saved) {
+                cart = JSON.parse(saved);
+                updateCartCount();
+            }
+        }
+
+        function openModal() {
+            if (cart.length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+            
+            document.getElementById('modalName').textContent = document.getElementById('custName').value || '-';
+            document.getElementById('modalFlat').textContent = document.getElementById('flatNo').value || '-';
+            document.getElementById('modalPhone').textContent = document.getElementById('custPhone').value || '-';
+            document.getElementById('modalZone').textContent = document.getElementById('deliveryZone').value || '-';
+
+            const itemsHtml = cart.map(item => `
+                <div class="flex justify-between items-center py-2 border-b last:border-b-0">
+                    <div>
+                        <p class="font-bold">${item.name}</p>
+                        <p class="text-xs text-gray-600">${item.variant} x ${item.quantity}</p>
+                    </div>
+                    <button onclick="removeFromCart('${item.productKey}', '${item.variant}')" class="text-red-600 font-bold">Remove</button>
+                </div>
+            `).join('');
+
+            document.getElementById('modalCartItems').innerHTML = itemsHtml || '<p class="text-gray-500">No items in cart</p>';
+
+            const total = calculateCartTotal();
+            document.getElementById('modalTotal').textContent = `₹${total}`;
+
+            document.getElementById('orderModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('orderModal').classList.remove('active');
+        }
+
+        function removeFromCart(productKey, variant) {
+            cart = cart.filter(item => !(item.productKey === productKey && item.variant === variant));
+            saveCartToStorage();
+            updateCartCount();
+            if (cart.length === 0) {
+                closeModal();
+            } else {
+                openModal();
+            }
+        }
+
+        function calculateCartTotal() {
+            return cart.reduce((total, item) => {
+                const priceStr = item.variant.match(/₹(\d+)/)[1];
+                return total + (parseInt(priceStr) * item.quantity);
+            }, 0);
+        }
+
+        function submitOrder() {
+            if (!validateAllFields()) {
+                alert('Please fill all required fields');
+                return;
+            }
+
+            const name = document.getElementById('custName').value;
+            const flat = document.getElementById('flatNo').value;
+            const phone = document.getElementById('custPhone').value;
+            const zone = document.getElementById('deliveryZone').value;
+            const total = calculateCartTotal();
+
+            const itemsList = cart.map(item => `${item.variant} x ${item.quantity}`).join('\n');
+
+            const message = `🛒 *THE NEEDS TODAY - ORDER CONFIRMATION*
+━━━━━━━━━━━━━━━━━━━━━━━
+👤 *Customer Name:* ${name}
+📞 *Phone:* ${phone}
+🏠 *Address:* ${flat}, ${zone}
+━━━━━━━━━━━━━━━━━━━━━━━
+📦 *Order Items:*
+${itemsList}
+━━━━━━━━━━━━━━━━━━━━━━━
+💰 *Total Amount:* ₹${total}
+⏱️ *Estimated Delivery:* 1-2 Hours
+💳 *Payment:* UPI - 9739659886@okicici
+
+Please confirm this order. We'll deliver soon!`;  
+
+            const encodedMessage = encodeURIComponent(message);
+            window.open(`https://wa.me/${STORE_PHONE}?text=${encodedMessage}`, '_blank');
+
+            cart = [];
+            saveCartToStorage();
+            updateCartCount();
+            closeModal();
+            showNotification('Order sent to WhatsApp!');
+        }
+
+        function openWhatsApp() {
+            const message = 'Hi! I am ordering from your website.';
+            window.open(`https://wa.me/${STORE_PHONE}?text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        function updateActiveTab() {
+            const sections = document.querySelectorAll('section[id]');
+            const navTabs = document.querySelectorAll('[data-category]');
+            let current = "";
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (window.pageYOffset >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navTabs.forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.getAttribute('data-category') === current) {
+                    tab.classList.add('active');
+                }
+            });
+        }
+
+        // Close modal on outside click
+        document.getElementById('orderModal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+    </script>
 </body>
 </html>
-
-<script>
-// Function to validate customer details
-function validateCustomerDetails(details) {
-    // Validation logic goes here
-}
-
-// Function to calculate total
-function calculateTotal(cartItems) {
-    // Total calculation logic goes here
-}
-
-// Function to handle product search
-function searchProducts(query) {
-    // Search logic goes here
-}
-
-// Function to manage delivery zones
-function manageDeliveryZones(selectedZone) {
-    // Delivery zone management logic goes here
-}
-
-// Function for payment options
-function handlePayment(method) {
-    // Payment handling logic goes here
-}
-
-// Event listeners and other logic go here
-</script>
