@@ -3,216 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Needs Today | All-in-One Superstore</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        .brand-red { background-color: #E31E24; }
-        .text-brand-red { color: #E31E24; }
-        .nav-tab.active { border-bottom: 4px solid #E31E24; color: #E31E24; font-weight: 800; }
-        .whatsapp-float {
-            position: fixed; bottom: 20px; right: 20px;
-            background-color: #25d366; color: white;
-            padding: 14px 22px; border-radius: 50px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3); z-index: 1000;
-            font-weight: bold; display: flex; align-items: center;
-        }
-        html { scroll-behavior: smooth; }
-    </style>
+    <title>Order Management</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
-<body class="bg-gray-50 text-gray-900">
-
-    <a href="https://wa.me/919739659886?text=Hi!%20I%20am%20ordering%20from%20your%20website." class="whatsapp-float">
-        <i class="fab fa-whatsapp mr-2 text-2xl"></i> Order Anything
-    </a>
-
-    <nav class="bg-white shadow-md sticky top-0 z-50">
-        <div class="container mx-auto flex justify-between items-center py-3 px-6">
-            <div class="flex items-center">
-                <div class="brand-red text-white font-black px-3 py-1 rounded mr-3 italic">TNT</div>
-                <h1 class="text-xl font-black tracking-tighter">THE NEEDS TODAY</h1>
-            </div>
-            <a href="tel:919739659886" class="brand-red text-white px-4 py-2 rounded-full text-xs font-bold">Call Store</a>
-        </div>
-        <div class="flex overflow-x-auto border-t bg-gray-50 text-xs md:text-sm font-bold uppercase tracking-wider">
-            <a href="#dairy" class="flex-none px-6 py-4 nav-tab hover:bg-white transition">Milk & Dairy</a>
-            <a href="#groceries" class="flex-none px-6 py-4 nav-tab hover:bg-white transition">Grocery Staples</a>
-            <a href="#household" class="flex-none px-6 py-4 nav-tab hover:bg-white transition">Cleaning & Laundry</a>
-            <a href="#personal" class="flex-none px-6 py-4 nav-tab hover:bg-white transition">Personal Care</a>
-        </div>
-    </nav>
-
-    <header class="relative h-[300px] flex items-center justify-center text-center text-white bg-gray-900">
-        <img src="https://images.pexels.com/photos/264636/pexels-photo-264636.jpeg?auto=compress&cs=tinysrgb&w=1200" class="absolute inset-0 w-full h-full object-cover opacity-40">
-        <div class="relative z-10 px-6">
-            <h2 class="text-4xl md:text-6xl font-black mb-2 uppercase italic">Superstore Online</h2>
-            <p class="text-lg opacity-90 font-light">Free Delivery to ATS Happy Trails & Sector 10</p>
-        </div>
+<body>
+    <header>
+        <h1>Order Management System</h1>
+        <nav>
+            <input type="text" id="search" placeholder="Search products...">
+        </nav>
     </header>
-
-    <section class="container mx-auto -mt-10 relative z-30 px-4 mb-10">
-        <div class="bg-white p-6 rounded-2xl shadow-xl max-w-2xl mx-auto border-b-8 border-brand-red">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <input type="text" id="custName" placeholder="Your Full Name" class="bg-gray-50 border p-4 rounded-xl outline-none focus:ring-2 focus:ring-red-500">
-                <input type="text" id="flatNo" placeholder="Flat & Tower No." class="bg-gray-50 border p-4 rounded-xl outline-none focus:ring-2 focus:ring-red-500">
-            </div>
-        </div>
-    </section>
-
-    <section id="dairy" class="container mx-auto py-10 px-4">
-        <h3 class="text-2xl font-black mb-6 border-l-8 border-blue-500 pl-4 uppercase italic">1. Dairy & Breakfast</h3>
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
-            <div class="bg-white p-4 border rounded-2xl shadow-sm text-center">
-                <img src="https://images.pexels.com/photos/248412/pexels-photo-248412.jpeg?auto=compress&cs=tinysrgb&w=400" class="h-40 w-full object-cover rounded-xl mb-4">
-                <h4 class="font-bold">Milk & Curd</h4>
-                <p class="text-xs text-gray-500 mb-4 italic">Amul, Mother Dairy</p>
-                <button onclick="order('Milk/Curd')" class="w-full py-2 brand-red text-white rounded-lg font-bold">ADD TO ORDER</button>
-            </div>
-            <div class="bg-white p-4 border rounded-2xl shadow-sm text-center">
-                <img src="https://images.pexels.com/photos/821365/pexels-photo-821365.jpeg?auto=compress&cs=tinysrgb&w=400" class="h-40 w-full object-cover rounded-xl mb-4">
-                <h4 class="font-bold">Fresh Bread</h4>
-                <p class="text-xs text-gray-500 mb-4 italic">Brown & White</p>
-                <button onclick="order('Fresh Bread')" class="w-full py-2 brand-red text-white rounded-lg font-bold">ADD TO ORDER</button>
-            </div>
-            <div class="bg-white p-4 border rounded-2xl shadow-sm text-center">
-                <img src="https://images.pexels.com/photos/414645/pexels-photo-414645.jpeg?auto=compress&cs=tinysrgb&w=400" class="h-40 w-full object-cover rounded-xl mb-4">
-                <h4 class="font-bold">Fresh Paneer</h4>
-                <p class="text-xs text-gray-500 mb-4 italic">Daily Fresh Stock</p>
-                <button onclick="order('Paneer')" class="w-full py-2 brand-red text-white rounded-lg font-bold">ADD TO ORDER</button>
-            </div>
-            <div class="bg-white p-4 border rounded-2xl shadow-sm text-center">
-                <img src="https://images.pexels.com/photos/1556665/pexels-photo-1556665.jpeg?auto=compress&cs=tinysrgb&w=400" class="h-40 w-full object-cover rounded-xl mb-4">
-                <h4 class="font-bold">Fresh Eggs</h4>
-                <p class="text-xs text-gray-500 mb-4 italic">Tray / Half Tray</p>
-                <button onclick="order('Eggs')" class="w-full py-2 brand-red text-white rounded-lg font-bold">ADD TO ORDER</button>
-            </div>
-        </div>
-    </section>
-
-    <section id="groceries" class="bg-gray-100 py-16 px-4">
-        <div class="container mx-auto">
-            <h3 class="text-2xl font-black mb-6 border-l-8 border-orange-500 pl-4 uppercase italic">2. Grocery Staples</h3>
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="bg-white p-4 border rounded-2xl shadow-sm text-center">
-                    <img src="https://images.pexels.com/photos/4110251/pexels-photo-4110251.jpeg?auto=compress&cs=tinysrgb&w=400" class="h-40 w-full object-cover rounded-xl mb-4">
-                    <h4 class="font-bold">Atta & Flours</h4>
-                    <button onclick="order('Atta')" class="w-full py-2 bg-orange-500 text-white rounded-lg font-bold mt-4">ORDER NOW</button>
-                </div>
-                <div class="bg-white p-4 border rounded-2xl shadow-sm text-center">
-                    <img src="https://images.pexels.com/photos/4110226/pexels-photo-4110226.jpeg?auto=compress&cs=tinysrgb&w=400" class="h-40 w-full object-cover rounded-xl mb-4">
-                    <h4 class="font-bold">Dals & Pulses</h4>
-                    <button onclick="order('Dals')" class="w-full py-2 bg-orange-500 text-white rounded-lg font-bold mt-4">ORDER NOW</button>
-                </div>
-                <div class="bg-white p-4 border rounded-2xl shadow-sm text-center">
-                    <img src="https://images.pexels.com/photos/674483/pexels-photo-674483.jpeg?auto=compress&cs=tinysrgb&w=400" class="h-40 w-full object-cover rounded-xl mb-4">
-                    <h4 class="font-bold">Indian Spices</h4>
-                    <button onclick="order('Spices')" class="w-full py-2 bg-orange-500 text-white rounded-lg font-bold mt-4">ORDER NOW</button>
-                </div>
-                <div class="bg-white p-4 border rounded-2xl shadow-sm text-center">
-                    <img src="https://images.pexels.com/photos/1474979/pexels-photo-1474979.jpeg?auto=compress&cs=tinysrgb&w=400" class="h-40 w-full object-cover rounded-xl mb-4">
-                    <h4 class="font-bold">Oils & Ghee</h4>
-                    <button onclick="order('Oil/Ghee')" class="w-full py-2 bg-orange-500 text-white rounded-lg font-bold mt-4">ORDER NOW</button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="household" class="container mx-auto py-16 px-4">
-        <h3 class="text-2xl font-black mb-6 border-l-8 border-green-600 pl-4 uppercase italic">3. Cleaning & Laundry</h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="bg-green-50 p-6 rounded-3xl flex justify-between items-center border border-green-200">
-                <div>
-                    <h4 class="text-xl font-black uppercase">Detergents & Soaps</h4>
-                    <p class="text-sm text-gray-600">Surf Excel, Ariel, Tide, Vim Bar</p>
-                </div>
-                <button onclick="order('Cleaning Items')" class="bg-green-600 text-white px-6 py-2 rounded-full font-bold">ORDER</button>
-            </div>
-            <div class="bg-green-50 p-6 rounded-3xl flex justify-between items-center border border-green-200">
-                <div>
-                    <h4 class="text-xl font-black uppercase">Floor & Toilet</h4>
-                    <p class="text-sm text-gray-600">Lizol, Harpic, Colin, Dettol</p>
-                </div>
-                <button onclick="order('Floor/Toilet Cleaners')" class="bg-green-600 text-white px-6 py-2 rounded-full font-bold">ORDER</button>
-            </div>
-        </div>
-    </section>
-
-    <section id="personal" class="bg-blue-600 py-16 px-4 text-white">
-        <div class="container mx-auto">
-            <h3 class="text-2xl font-black mb-6 border-l-8 border-white pl-4 uppercase italic">4. Personal Care</h3>
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="text-center">
-                    <div class="bg-white/20 h-32 rounded-full flex items-center justify-center mb-4"><i class="fas fa-soap text-4xl"></i></div>
-                    <h5 class="font-bold">Bath & Body</h5>
-                    <button onclick="order('Bath/Body Soaps')" class="mt-2 bg-white text-blue-600 px-4 py-1 rounded-full text-xs font-bold">Choose</button>
-                </div>
-                <div class="text-center">
-                    <div class="bg-white/20 h-32 rounded-full flex items-center justify-center mb-4"><i class="fas fa-tooth text-4xl"></i></div>
-                    <h5 class="font-bold">Oral Care</h5>
-                    <button onclick="order('Oral Care')" class="mt-2 bg-white text-blue-600 px-4 py-1 rounded-full text-xs font-bold">Choose</button>
-                </div>
-                <div class="text-center">
-                    <div class="bg-white/20 h-32 rounded-full flex items-center justify-center mb-4"><i class="fas fa-pump-medical text-4xl"></i></div>
-                    <h5 class="font-bold">Hair Care</h5>
-                    <button onclick="order('Shampoos')" class="mt-2 bg-white text-blue-600 px-4 py-1 rounded-full text-xs font-bold">Choose</button>
-                </div>
-                <div class="text-center">
-                    <div class="bg-white/20 h-32 rounded-full flex items-center justify-center mb-4"><i class="fas fa-baby text-4xl"></i></div>
-                    <h5 class="font-bold">Baby Care</h5>
-                    <button onclick="order('Baby Products')" class="mt-2 bg-white text-blue-600 px-4 py-1 rounded-full text-xs font-bold">Choose</button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="py-20 text-center bg-white px-4">
-        <h3 class="text-3xl font-black mb-4 tracking-tighter uppercase italic">Fast UPI Payment</h3>
-        <p class="text-gray-500 mb-8">Pay securely after delivery confirmation</p>
-        <div class="inline-block p-4 border-4 border-dashed rounded-3xl">
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=9739659886@okicici" alt="QR">
-        </div>
-        <p class="mt-4 text-xl font-bold">9739659886@okicici</p>
-    </section>
-
-    <footer class="bg-gray-900 text-white py-12 px-6 text-center">
-        <h4 class="text-2xl font-black italic mb-2 tracking-tighter uppercase">The Needs Today</h4>
-        <p class="text-sm text-gray-500 mb-6">Shop No. 3, ATS Happy Trails, Greater Noida West</p>
-        <div class="text-[10px] text-gray-700 font-bold tracking-widest uppercase">
-            Designed for Superstore Performance
-        </div>
+    <main>
+        <section>
+            <h2>Available Products</h2>
+            <ul id="product-list">
+                <!-- Product items will be generated here --></ul>
+        </section>
+        <section>
+            <h2>Your Cart</h2>
+            <ul id="cart">
+                <!-- Cart items will be generated here --></ul>
+            <p id="total">Total: $0.00</p>
+            <button id="checkout">Checkout</button>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2026 Your Company Name</p>
     </footer>
-
-    <script>
-        function order(item) {
-            const name = document.getElementById('custName').value || 'Customer';
-            const flat = document.getElementById('flatNo').value || 'ATS Happy Trails';
-            const phone = "919739659886"; 
-            
-            const message = `🛒 *SUPERSTORE ORDER*\n--------------------------\n👤 Name: ${name}\n🏠 Flat: ${flat}\n📦 Item: ${item}\n--------------------------\n_Please confirm price and delivery time._`;
-            
-            window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
-        }
-
-        // Simple Tab active state highlighting
-        window.addEventListener('scroll', () => {
-            const sections = document.querySelectorAll('section');
-            const navTabs = document.querySelectorAll('.nav-tab');
-            let current = "";
-
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                if (pageYOffset >= sectionTop - 150) {
-                    current = section.getAttribute('id');
-                }
-            });
-
-            navTabs.forEach(tab => {
-                tab.classList.remove('active');
-                if (tab.getAttribute('href').includes(current)) {
-                    tab.classList.add('active');
-                }
-            });
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
+
+<script>
+// Function to validate customer details
+function validateCustomerDetails(details) {
+    // Validation logic goes here
+}
+
+// Function to calculate total
+function calculateTotal(cartItems) {
+    // Total calculation logic goes here
+}
+
+// Function to handle product search
+function searchProducts(query) {
+    // Search logic goes here
+}
+
+// Function to manage delivery zones
+function manageDeliveryZones(selectedZone) {
+    // Delivery zone management logic goes here
+}
+
+// Function for payment options
+function handlePayment(method) {
+    // Payment handling logic goes here
+}
+
+// Event listeners and other logic go here
+</script>
